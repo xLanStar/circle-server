@@ -1,0 +1,29 @@
+{
+  "name": "circle_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "nodemon": "^3.0.1",
+    "pino": "^8.16.2",
+    "pino-pretty": "^10.2.3",
+    "uuid": "^9.0.1",
+    "ws": "^8.14.2"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.8",
+    "utf-8-validate": "^6.0.3"
+  },
+  "devDependencies": {
+    "@types/uuid": "^9.0.7",
+    "@types/ws": "^8.5.10"
+  }
+}
