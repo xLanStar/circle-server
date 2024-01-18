@@ -4,7 +4,12 @@ import { BufferReader } from "../bufferReader.js";
 import logger from "../logger.js";
 import { Type, getInitBuffer } from "../utils/packet.utils.js";
 
-const server = new WebSocketServer({ port: 8080, maxPayload: 1000000 });
+const server = createServer({
+  cert: readFileSync("cert/cert.crt", "utf8"),
+  key: readFileSync("cert/key.pem", "utf8"),
+});
+
+const wss = new WebSocketServer({ server, port: 8080, maxPayload: 1000000 });
 const handlers = {};
 
 const loadHandlers = async () => {
@@ -16,14 +21,14 @@ const loadHandlers = async () => {
 };
 
 export const broadcast = (buffer) => {
-  for (const client of server.clients) client.send(buffer);
+  for (const client of wss.clients) client.send(buffer);
 };
 
 export const startWebSocketServer = async () => {
   logger.info("[Server] start");
   await loadHandlers();
 
-  server.addListener("connection", (client, request) => {
+  wss.addListener("connection", (client, request) => {
     client.id = request.headers["sec-websocket-key"];
     client.send(getInitBuffer(client));
     logger.info("[Server] new client: %s", client.id);
@@ -42,4 +47,4 @@ export const startWebSocketServer = async () => {
   });
 };
 
-export default server;
+export default wss;

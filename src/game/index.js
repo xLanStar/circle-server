@@ -1,6 +1,6 @@
 import { BufferWriter } from "../bufferWriter.js";
 import logger from "../logger.js";
-import server, { broadcast } from "../server/websocket.js";
+import wss, { broadcast } from "../server/websocket.js";
 import {
   Type,
   getPlayerBuffer,
@@ -120,7 +120,7 @@ export const startGame = () => {
   let newDots = [];
   setInterval(() => {
     const now = hrtimeMs();
-    if (server.clients.size) {
+    if (wss.clients.size) {
       const delta = now - previousTick;
       const players_array = Object.values(players);
       for (const player of players_array) {
